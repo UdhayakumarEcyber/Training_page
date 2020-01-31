@@ -5,29 +5,18 @@ import * as React from 'react';
 
 
 export interface IHandBookBarProps {
-  // isShown:boolean;    
+  onShowClick: () => void;
 }
 
 export interface IHandBookBarState {
-  isShownPopup:boolean;
+ 
 }
 
-export class HandBook extends React.Component<{},IHandBookBarState> {
+export class HandBook extends React.Component<IHandBookBarProps,IHandBookBarState> {
   constructor(props:any) {
-    super(props);     
- //    this.state = {isToggleOn: true};  
- this.state = {isShownPopup: true};   
- this.onShowCick = this.onShowCick.bind(this);    
-    
-}
-    
- 
- 
- onShowCick() {
-  this.setState(function(prevState) {
-      return {isShownPopup: !prevState.isShownPopup};
-  });
-}
+    super(props);      
+        
+} 
 
 render() {  
 
@@ -88,7 +77,7 @@ render() {
                     <h4>{item.heading}</h4>
                    <div className="handbook_list_title_rgt">
                       <em className="mints-txt">{item.mints}</em>
-                      <a href="#" className="play_resume-btn" onClick={this.onShowCick}>{item.paly_resume}</a>
+                      <a href="#" className="play_resume-btn" onClick={() => this.props.onShowClick()}>{item.paly_resume}</a>
                    </div>
                 </div>             
 
@@ -100,7 +89,8 @@ render() {
           </div>
         );
 
-                 
+       
+
         return <div className='handbook'>                            
                 <div className="handbook-model">
                   <div className="handbook-title-bar"><h3>Lucy Handbook</h3></div>

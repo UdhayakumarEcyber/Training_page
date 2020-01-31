@@ -100,14 +100,6 @@ const React = __webpack_require__(/*! react */ "react");
 class HandBook extends React.Component {
     constructor(props) {
         super(props);
-        this.onShowCick = () => {
-            this.setState({
-                isShownPopup: false
-            });
-        };
-        //    this.state = {isToggleOn: true};  
-        this.state = { isShownPopup: true };
-        this.onShowCick = this.onShowCick.bind(this);
     }
     render() {
         const hand_list = [
@@ -162,7 +154,7 @@ class HandBook extends React.Component {
                 React.createElement("h4", null, item.heading),
                 React.createElement("div", { className: "handbook_list_title_rgt" },
                     React.createElement("em", { className: "mints-txt" }, item.mints),
-                    React.createElement("a", { href: "#", className: "play_resume-btn", onClick: this.onShowCick }, item.paly_resume))),
+                    React.createElement("a", { href: "#", className: "play_resume-btn", onClick: () => this.props.onShowClick() }, item.paly_resume))),
             React.createElement("li", { className: "sub_list" }, item.sublistname1),
             React.createElement("li", { className: "sub_list" }, item.sublistname2),
             React.createElement("li", { className: "sub_list" }, item.sublistname3))))));
@@ -254,7 +246,10 @@ class TrainingMain extends React.Component {
     constructor(props) {
         super(props);
         //    this.state = {isToggleOn: true};        
-        this.state = { isToggleOn: true };
+        this.state = {
+            isToggleOn: true,
+            isShownPopup: true,
+        };
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
@@ -262,10 +257,15 @@ class TrainingMain extends React.Component {
             return { isToggleOn: !prevState.isToggleOn };
         });
     }
+    onShowClick() {
+        this.setState({ isShownPopup: !this.state.isShownPopup });
+    }
     render() {
+        let classname = this.state.isShownPopup ? "Hide_HandBook" : "Show_HandBook";
         return React.createElement("div", { className: "training-section" },
-            React.createElement("div", { className: this.props.isShownPopup ? 'Hide_HandBook' : 'Show_HandBook' },
-                React.createElement(now_watching_1.WatchModel, null)),
+            React.createElement("div", { className: classname },
+                React.createElement("div", { className: "popup_overall" },
+                    React.createElement(now_watching_1.WatchModel, { onShowClick: () => this.onShowClick() }))),
             React.createElement("div", { className: "container" },
                 React.createElement("header", { className: "training-section-header" },
                     React.createElement("div", { className: "menu-nav" },
@@ -277,7 +277,7 @@ class TrainingMain extends React.Component {
                 React.createElement("section", { className: "content" },
                     React.createElement(connect_model_1.ConnectModel, null),
                     React.createElement("div", { className: this.state.isToggleOn ? 'Hide_HandBook' : 'Show_HandBook' },
-                        React.createElement(HandBook_1.HandBook, null))),
+                        React.createElement(HandBook_1.HandBook, { onShowClick: () => this.onShowClick() }))),
                 React.createElement("div", { className: "copy_right" },
                     React.createElement("p", null, "COPYRIGHTS 2020 \u00A9 ALL RIGHTS RESERVED."))));
     }
@@ -307,8 +307,6 @@ class WatchModel extends React.Component {
                 isClosepopup: false
             });
         };
-        this.state = { isClosepopup: true };
-        this.onHideCick = this.onHideCick.bind(this);
     }
     render() {
         // const videoplay ={
@@ -339,14 +337,13 @@ class WatchModel extends React.Component {
                     React.createElement("li", { className: "sub_list" }, item.sublistname2),
                     React.createElement("li", { className: "sub_list" }, item.sublistname3)),
                 React.createElement("a", { href: "#", className: "save-later-btn" }, "Save For Later")))))));
-        return React.createElement("div", { className: this.state.isClosepopup ? 'popup_overall' : 'Hide_HandBook' },
-            React.createElement("div", { className: "PopUp" },
-                React.createElement("div", { className: "PopUp-title" },
-                    React.createElement("span", { className: "close", onClick: this.onHideCick }),
-                    React.createElement("h3", null,
-                        "Now watching ",
-                        React.createElement("span", null, "Connect a Lucy model to Slack channel under five minutes"))),
-                React.createElement(WatchList, null)));
+        return React.createElement("div", { className: "PopUp" },
+            React.createElement("div", { className: "PopUp-title" },
+                React.createElement("span", { className: "close", onClick: () => this.props.onShowClick() }),
+                React.createElement("h3", null,
+                    "Now watching ",
+                    React.createElement("span", null, "Connect a Lucy model to Slack channel under five minutes"))),
+            React.createElement(WatchList, null));
     }
 }
 exports.WatchModel = WatchModel;

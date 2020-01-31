@@ -8,21 +8,28 @@ import{ HandBook } from './HandBook';
 import {WatchModel} from './now_watching'
  
 export interface ITrainingMainProps {
-    isShownPopup:boolean;     
+     
 }
 
 export interface ITrainingMainState {
     isToggleOn:boolean;
+    isShownPopup: boolean; 
+    // isHidePopup : boolean;
 }
 
-export class TrainingMain extends React.Component<ITrainingMainProps, ITrainingMainState> {
+export class TrainingMain extends React.Component<{}, ITrainingMainState> {
     constructor(props:any) {
        super(props);  
       
     //    this.state = {isToggleOn: true};        
-    this.state = {isToggleOn: true};  
+    this.state = {
+        isToggleOn: true,
+        isShownPopup: true,
+        // isHidePopup : true, 
+     
+    };  
     this.handleClick = this.handleClick.bind(this);
-
+    
    }
 
    handleClick() {
@@ -31,14 +38,21 @@ export class TrainingMain extends React.Component<ITrainingMainProps, ITrainingM
     });
 }
 
-   
+onShowClick() {
+    this.setState({isShownPopup: !this.state.isShownPopup});
+  }
+ 
    render() {  
-       return  <div className="training-section">  
 
-                <div className={this.props.isShownPopup ? 'Hide_HandBook' : 'Show_HandBook'}>
-                    <WatchModel />    
-                </div>
+        let classname = this.state.isShownPopup ? "Hide_HandBook" : "Show_HandBook";         
 
+        return  <div className="training-section">  
+
+            <div className={classname}>
+                <div className="popup_overall">
+                    <WatchModel onShowClick={() => this.onShowClick()}/>  
+                </div>  
+            </div>  
 
                <div className="container">
                     <header className="training-section-header">          
@@ -56,9 +70,8 @@ export class TrainingMain extends React.Component<ITrainingMainProps, ITrainingM
 
                         <ConnectModel />  
                         <div className={this.state.isToggleOn ? 'Hide_HandBook' : 'Show_HandBook'}>
-                            <HandBook />                            
+                            <HandBook  onShowClick={() => this.onShowClick()}/>                            
                         </div>
-                        
 
                 </section> 
 

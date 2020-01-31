@@ -2,30 +2,20 @@ import * as React from 'react';
 
 // import * as Player from 'video-react';
 
-// import Popup from "reactjs-popup";
   
- 
+export interface IWatchModelProps {
+  onShowClick: () => void;
+}
 
-// export interface IHandBookBarProps {
-//     publishData:boolean;
-//     onDataToggleSettings:( publishData:boolean) => void;
-//     isShownpopup:boolean;
-// }
-
-export interface IHandBookBarState {
+export interface IWatchModelState {
     isClosepopup:boolean;
 }
 
 
-export class WatchModel extends React.Component<{},IHandBookBarState>  {
+export class WatchModel extends React.Component<IWatchModelProps,IWatchModelState>  {
   constructor(props:any) {
     super(props);  
-       
- 
- this.state = {isClosepopup: true};
-    
- this.onHideCick = this.onHideCick.bind(this);    
-    
+   
 }
     
 onHideCick = () => {
@@ -33,6 +23,7 @@ onHideCick = () => {
     isClosepopup: false   
   });
  }
+ 
 
 render() {  
 
@@ -104,17 +95,13 @@ render() {
        
 
                  
-        return <div className={this.state.isClosepopup ? 'popup_overall' : 'Hide_HandBook'}>
+        return <div className="PopUp">
 
-          <div className="PopUp">
+                     <div className="PopUp-title"><span className="close" onClick={() => this.props.onShowClick()}></span><h3>Now watching <span>Connect a Lucy model to Slack channel under five minutes</span></h3></div>
 
-          <div className="PopUp-title"><span className="close" onClick={this.onHideCick}></span><h3>Now watching <span>Connect a Lucy model to Slack channel under five minutes</span></h3></div>
+                     <WatchList />  
 
-                  <WatchList />  
-
-              </div>
-
-          </div>
+                </div> 
  
     }
 }
